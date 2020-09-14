@@ -42,7 +42,7 @@ const (
 crafted with passion by Luca Sepe - https://github.com/lucasepe/modgv`
 )
 
-var version = "0.1.0"
+var version = "0.2.0"
 
 func main() {
 

@@ -28,7 +28,7 @@ func Render(in io.Reader, out io.Writer) error {
 	fmt.Fprintf(out, "\tranksep=\"1.2 equally\";\n")
 	fmt.Fprintf(out, "\tsplines=ortho;\n")
 	fmt.Fprintf(out, "\nodesep=\"0.8\";\n")
-	fmt.Fprintf(out, "\tnode [shape=plaintext style=\"filled,rounded\" penwidth=2 fontsize=12 fontname=\"Fira Code\"];\n")
+	fmt.Fprintf(out, "\tnode [shape=plaintext style=\"filled,rounded\" penwidth=2 fontsize=12 fontname=\"monospace\"];\n")
 
 	fmt.Fprintf(out, "\t%q [shape=underline style=\"\" fontsize=14 label=<<b>%s</b>>];\n", graph.root, graph.root)
 
@@ -66,8 +66,14 @@ func textToHTML(line string, color string) string {
 		mod, ver = line[:i], line[i+1:]
 	}
 
+	u := fmt.Sprintf(`href="https://pkg.go.dev/%s?tab=doc"`, mod)
+
 	var sb strings.Builder
-	sb.WriteString(`<table border="0" cellspacing="8">`)
+	sb.WriteString(`<table border="0" cellspacing="8" `)
+	if mod != "" {
+		sb.WriteString(u)
+	}
+	sb.WriteString(`>`)
 	if len(mod) > 0 {
 		sb.WriteString(`<tr><td><font color="`)
 		sb.WriteString(color)

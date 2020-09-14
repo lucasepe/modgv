@@ -22,6 +22,22 @@ For each module:
 go get github.com/lucasepe/modgv/modgv
 ```
 
-## Sample output
+## Sample output (PNG)
+
+```bash
+go mod graph | modgv | dot -Tpng -o graph.png
+```
 
 ![](./graph.png)
+
+---
+
+## Sample output (PDF with clickable links to module docs)
+
+```bash
+go mod graph | modgv | dot -Tps2 -o graph.ps
+ps2pdf graph.ps graph.pdf
+```
+
+![View generated PDF](./graph.pdf)
+
