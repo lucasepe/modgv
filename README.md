@@ -22,6 +22,18 @@ For each module:
 go get github.com/lucasepe/modgv/modgv
 ```
 
+### Install GraphViz dependency
+
+This may take a while, as GraphViz has quite a few dependencies of it's own
+
+#### On Mac
+
+Install graphviz via Homebrew
+
+```zsh
+brew install graphviz
+```
+
 ## Sample output (PNG)
 
 ```bash
