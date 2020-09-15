@@ -1,5 +1,7 @@
 # modgv
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/lucasepe/modgv)](https://goreportcard.com/report/github.com/lucasepe/modgv) &nbsp;&nbsp;&nbsp; [![Go Coverage](https://gocover.io/_badge/github.com/lucasepe/modgv?nocache=modgv)](https://gocover.io/_badge/github.com/lucasepe/modgv?nocache=modgv) &nbsp;&nbsp;&nbsp; [![Go API Reference](https://img.shields.io/badge/go-docs-blue.svg?style=flat)](https://pkg.go.dev/github.com/lucasepe/modgv?tab=doc)
+
 Converts 'go mod graph' output into [GraphViz](https://graphviz.gitlab.io/download/)'s DOT language.
 
 - takes no options or arguments
@@ -23,7 +25,7 @@ go get github.com/lucasepe/modgv/modgv
 ```
 
 Here 👉 https://graphviz.gitlab.io/download/ how to install [GraphViz](https://graphviz.gitlab.io/download/) for your OS.
- 
+
 ## Sample output (PNG)
 
 ```bash
