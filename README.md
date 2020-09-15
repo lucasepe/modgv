@@ -1,6 +1,6 @@
 # modgv
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/lucasepe/modgv)](https://goreportcard.com/report/github.com/lucasepe/modgv) &nbsp;&nbsp;&nbsp; [![Go Coverage](https://gocover.io/_badge/github.com/lucasepe/modgv?nocache=modgv)](https://gocover.io/_badge/github.com/lucasepe/modgv?nocache=modgv) &nbsp;&nbsp;&nbsp; [![Go API Reference](https://img.shields.io/badge/go-docs-blue.svg?style=flat)](https://pkg.go.dev/github.com/lucasepe/modgv?tab=doc)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lucasepe/modgv)](https://goreportcard.com/report/github.com/lucasepe/modgv) &nbsp;&nbsp;&nbsp; [![Go Coverage](https://gocover.io/_badge/github.com/lucasepe/modgv?nocache=modgv)](https://gocover.io/_badge/github.com/lucasepe/modgv?nocache=modgv) &nbsp;&nbsp;&nbsp; [![Go API Reference](https://img.shields.io/badge/go-docs-blue.svg?style=flat)](https://pkg.go.dev/github.com/lucasepe/modgv?tab=doc) &nbsp;&nbsp;&nbsp; [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#package-management)
 
 Converts 'go mod graph' output into [GraphViz](https://graphviz.gitlab.io/download/)'s DOT language.
 
