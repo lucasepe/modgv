@@ -14,7 +14,7 @@ import (
 )
 
 type RenderOptions struct {
-	HighlightPackages map[string]bool
+	HighlightModules map[string]bool
 }
 
 // Render translates “go mod graph” output taken from
@@ -39,14 +39,14 @@ func Render(in io.Reader, out io.Writer, options RenderOptions) error {
 	coloring(graph, options)
 
 	for _, n := range graph.mvsPicked {
-		if options.HighlightPackages[n] {
+		if options.HighlightModules[n] {
 			fmt.Fprintf(out, "\t%q [fillcolor=\"#ff0000\" label=<%s>];\n", n, textToHTML(n, "#fafafa"))
 		} else {
 			fmt.Fprintf(out, "\t%q [fillcolor=\"#0c5525\" label=<%s>];\n", n, textToHTML(n, "#fafafa"))
 		}
 	}
 	for _, n := range graph.mvsUnpicked {
-		if options.HighlightPackages[n] {
+		if options.HighlightModules[n] {
 			fmt.Fprintf(out, "\t%q [fillcolor=\"#ff0000\" label=<%s>];\n", n, textToHTML(n, "#fafafa"))
 		} else {
 			fmt.Fprintf(out, "\t%q [fillcolor=\"#a3a3a3\" label=<%s>];\n", n, textToHTML(n, "#0e0e0e"))
@@ -59,17 +59,17 @@ func Render(in io.Reader, out io.Writer, options RenderOptions) error {
 	return nil
 }
 
-// coloring highlight all packages that reference package in options.HighlightPackages
+// coloring highlight all packages that reference package in options.HighlightModules
 func coloring(gr *graph, options RenderOptions) {
-	if len(options.HighlightPackages) == 0 {
+	if len(options.HighlightModules) == 0 {
 		return
 	}
 	finished := false
 	for !finished {
 		coloringCnt := 0
 		for _, e := range gr.edges {
-			if options.HighlightPackages[e.to] && !options.HighlightPackages[e.from] {
-				options.HighlightPackages[e.from] = true
+			if options.HighlightModules[e.to] && !options.HighlightModules[e.from] {
+				options.HighlightModules[e.from] = true
 				coloringCnt++
 			}
 		}

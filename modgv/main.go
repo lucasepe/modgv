@@ -48,7 +48,7 @@ var printHelp bool
 
 func init() {
 	flag.BoolVar(&printHelp, "h", false, "print helps.")
-	flag.StringVar(&highlights, "H", "", "The packages need high light color, split with comma.")
+	flag.StringVar(&highlights, "H", "", "The modules need highlight, split with comma.")
 }
 
 func main() {
@@ -59,13 +59,13 @@ func main() {
 		usage()
 	}
 
-	highlightPackages := strings.Split(highlights, ",")
-	highlightPackagesMap := make(map[string]bool, len(highlightPackages))
-	for _, pkg := range highlightPackages {
-		highlightPackagesMap[pkg] = true
+	highlightModules := strings.Split(highlights, ",")
+	highlightModulesMap := make(map[string]bool, len(highlightModules))
+	for _, mod := range highlightModules {
+		highlightModulesMap[mod] = true
 	}
 
-	if err := modgv.Render(os.Stdin, os.Stdout, modgv.RenderOptions{HighlightPackages: highlightPackagesMap}); err != nil {
+	if err := modgv.Render(os.Stdin, os.Stdout, modgv.RenderOptions{HighlightModules: highlightModulesMap}); err != nil {
 		exitOnErr(err)
 	}
 }
@@ -81,7 +81,7 @@ func usage() {
 	fmt.Fprintf(os.Stderr, "\n")
 
 	fmt.Fprintf(os.Stderr, "USAGE:\n\n")
-	fmt.Fprintf(os.Stderr, "  go mod graph | %s | dot -Tpng -o graph.png\n\n", appName())
+	fmt.Fprintf(os.Stderr, "  go mod graph [-H some modules need highlight, split with comma.] | %s | dot -Tpng -o graph.png\n\n", appName())
 
 	fmt.Fprintf(os.Stderr, "For each module:\n")
 	fmt.Fprintf(os.Stderr, "  * the node representing the greatest version (i.e., the version ")
