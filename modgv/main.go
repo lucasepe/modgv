@@ -43,16 +43,29 @@ crafted with passion by Luca Sepe - https://github.com/lucasepe/modgv`
 )
 
 var version = "0.2.0"
+var highlights = ""
+var printHelp bool
+
+func init() {
+	flag.BoolVar(&printHelp, "h", false, "print helps.")
+	flag.StringVar(&highlights, "H", "", "The packages need high light color, split with comma.")
+}
 
 func main() {
 
 	flag.Usage = usage
 	flag.Parse()
-	if flag.NArg() != 0 {
+	if printHelp {
 		usage()
 	}
 
-	if err := modgv.Render(os.Stdin, os.Stdout); err != nil {
+	highlightPackages := strings.Split(highlights, ",")
+	highlightPackagesMap := make(map[string]bool, len(highlightPackages))
+	for _, pkg := range highlightPackages {
+		highlightPackagesMap[pkg] = true
+	}
+
+	if err := modgv.Render(os.Stdin, os.Stdout, modgv.RenderOptions{HighlightPackages: highlightPackagesMap}); err != nil {
 		exitOnErr(err)
 	}
 }

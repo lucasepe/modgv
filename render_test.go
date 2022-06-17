@@ -11,7 +11,7 @@ func TestRender(t *testing.T) {
 test.com/A@v1.0.0 test.com/B@v1.2.3
 test.com/B@v1.0.0 test.com/C@v4.5.6
 `))
-	if err := Render(in, out); err != nil {
+	if err := Render(in, out, RenderOptions{HighlightPackages: map[string]bool{}}); err != nil {
 		t.Fatal(err)
 	}
 
