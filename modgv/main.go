@@ -81,7 +81,7 @@ func usage() {
 	fmt.Fprintf(os.Stderr, "\n")
 
 	fmt.Fprintf(os.Stderr, "USAGE:\n\n")
-	fmt.Fprintf(os.Stderr, "  go mod graph [-H some modules need highlight, split with comma.] | %s | dot -Tpng -o graph.png\n\n", appName())
+	fmt.Fprintf(os.Stderr, "  go mod graph | %s [-H some modules need highlight, split with comma.] | dot -Tpng -o graph.png\n\n", appName())
 
 	fmt.Fprintf(os.Stderr, "For each module:\n")
 	fmt.Fprintf(os.Stderr, "  * the node representing the greatest version (i.e., the version ")
