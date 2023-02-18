@@ -13,10 +13,14 @@ import (
 	"github.com/lucasepe/modgv/text"
 )
 
+type RenderOptions struct {
+	HighlightModules map[string]bool
+}
+
 // Render translates “go mod graph” output taken from
 // the 'in' reader into Graphviz's DOT language, writing
 // to the 'out' writer.
-func Render(in io.Reader, out io.Writer) error {
+func Render(in io.Reader, out io.Writer, options RenderOptions) error {
 	graph, err := convert(in)
 	if err != nil {
 		return err
@@ -32,17 +36,45 @@ func Render(in io.Reader, out io.Writer) error {
 
 	fmt.Fprintf(out, "\t%q [shape=underline style=\"\" fontsize=14 label=<<b>%s</b>>];\n", graph.root, graph.root)
 
+	coloring(graph, options)
+
 	for _, n := range graph.mvsPicked {
-		fmt.Fprintf(out, "\t%q [fillcolor=\"#0c5525\" label=<%s>];\n", n, textToHTML(n, "#fafafa"))
+		if options.HighlightModules[n] {
+			fmt.Fprintf(out, "\t%q [fillcolor=\"#ff0000\" label=<%s>];\n", n, textToHTML(n, "#fafafa"))
+		} else {
+			fmt.Fprintf(out, "\t%q [fillcolor=\"#0c5525\" label=<%s>];\n", n, textToHTML(n, "#fafafa"))
+		}
 	}
 	for _, n := range graph.mvsUnpicked {
-		fmt.Fprintf(out, "\t%q [fillcolor=\"#a3a3a3\" label=<%s>];\n", n, textToHTML(n, "#0e0e0e"))
+		if options.HighlightModules[n] {
+			fmt.Fprintf(out, "\t%q [fillcolor=\"#ff0000\" label=<%s>];\n", n, textToHTML(n, "#fafafa"))
+		} else {
+			fmt.Fprintf(out, "\t%q [fillcolor=\"#a3a3a3\" label=<%s>];\n", n, textToHTML(n, "#0e0e0e"))
+		}
 	}
 	out.Write(edgesAsDOT(graph))
 
 	fmt.Fprintf(out, "}\n")
 
 	return nil
+}
+
+// coloring highlight all packages that reference package in options.HighlightModules
+func coloring(gr *graph, options RenderOptions) {
+	if len(options.HighlightModules) == 0 {
+		return
+	}
+	finished := false
+	for !finished {
+		coloringCnt := 0
+		for _, e := range gr.edges {
+			if options.HighlightModules[e.to] && !options.HighlightModules[e.from] {
+				options.HighlightModules[e.from] = true
+				coloringCnt++
+			}
+		}
+		finished = coloringCnt == 0
+	}
 }
 
 // edgesAsDOT returns the edges in DOT notation.
