@@ -1,6 +1,6 @@
 # modgv
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/lucasepe/modgv)](https://goreportcard.com/report/github.com/lucasepe/modgv) &nbsp;&nbsp;&nbsp; [![Go Coverage](https://gocover.io/_badge/github.com/lucasepe/modgv?nocache=modgv)](https://gocover.io/_badge/github.com/lucasepe/modgv?nocache=modgv) &nbsp;&nbsp;&nbsp; [![Go API Reference](https://img.shields.io/badge/go-docs-blue.svg?style=flat)](https://pkg.go.dev/github.com/lucasepe/modgv?tab=doc) &nbsp;&nbsp;&nbsp; [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#package-management)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lucasepe/modgv)](https://goreportcard.com/report/github.com/lucasepe/modgv) &nbsp;&nbsp;&nbsp; [![Go API Reference](https://img.shields.io/badge/go-docs-blue.svg?style=flat)](https://pkg.go.dev/github.com/lucasepe/modgv?tab=doc) &nbsp;&nbsp;&nbsp; [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/avelino/awesome-go#package-management)
 
 Converts 'go mod graph' output into [GraphViz](https://graphviz.gitlab.io/download/)'s DOT language.
 
@@ -19,6 +19,22 @@ For each module:
 - other nodes, which aren't in the final build list, are colored grey
 
 ## Installation
+
+### From [binary releases](https://github.com/lucasepe/modgv/releases) (macOS, Windows, Linux)
+
+memo currently provides pre-built binaries for the following:
+
+- macOS (Darwin)
+- Windows
+- Linux
+
+1. Download the appropriate version for your platform from [memo releases](https://github.com/lucasepe/modgv/releases).
+
+2. Once downloaded unpack the archive (zip for Windows; tarball for Linux and macOS) to extract the executable binary. 
+
+3. If you want to use from any location you must put the binary executable to your `Path` or add the directory where is it to the environment variables.
+
+### Using [`Go`](https://go.dev/dl/) toolchain
 
 ```bash
 git clone https://github.com/lucasepe/modgv.git

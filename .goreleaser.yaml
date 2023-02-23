@@ -1,0 +1,38 @@
+# Run locally with: goreleaser --rm-dist --snapshot --skip-publish
+project_name: modgv
+before:
+  hooks:
+    - go mod tidy
+    - go mod download
+builds:
+- env:
+    - CGO_ENABLED=0
+  ldflags:
+    - -s -w -X "main.Version={{.Version}}" -X "main.Build={{.ShortCommit}}"
+    - -a -extldflags "-static"
+  goos:
+    - windows
+    - linux
+    - darwin
+  goarch:
+    #- arm
+    - arm64
+    - amd64
+  goarm:
+    - 7
+archives:
+  - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        format: zip
+nfpms:
+  -
+    package_name: modgv
+    vendor: Luca Sepe
+    homepage: https://github.com/lucasepe/modgv
+    description: Converts 'go mod graph' output into Graphviz's DOT language.
+    license: MIT
+    maintainer: Luca Sepe
+    formats:
+      - deb
+      - rpm
