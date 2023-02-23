@@ -20,7 +20,6 @@
 //
 // See http://www.graphviz.org/doc/info/lang.html for details of the DOT language
 // and http://www.graphviz.org/about/ for Graphviz itself.
-//
 package main
 
 import (
@@ -30,7 +29,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/lucasepe/modgv"
+	"github.com/lucasepe/modgv/internal/render"
 )
 
 const (
@@ -52,7 +51,7 @@ func main() {
 		usage()
 	}
 
-	if err := modgv.Render(os.Stdin, os.Stdout); err != nil {
+	if err := render.Render(os.Stdin, os.Stdout); err != nil {
 		exitOnErr(err)
 	}
 }
@@ -81,8 +80,8 @@ func usage() {
 
 func printBanner() {
 	str := strings.Replace(banner, "{{VERSION}}", version, 1)
-	fmt.Fprintf(os.Stderr, str)
-	fmt.Fprintf(os.Stderr, "\n\n")
+	fmt.Fprint(os.Stderr, str)
+	fmt.Fprint(os.Stderr, "\n\n")
 }
 
 func appName() string {

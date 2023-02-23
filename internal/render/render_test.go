@@ -1,4 +1,4 @@
-package modgv
+package render
 
 import (
 	"bytes"
@@ -15,7 +15,7 @@ test.com/B@v1.0.0 test.com/C@v4.5.6
 		t.Fatal(err)
 	}
 
-	gotGraph := string(out.Bytes())
+	gotGraph := out.String()
 	wantGraph := `digraph gomodgraph {
 	node [ shape=rectangle fontsize=12 ]
 	"test.com/A@v1.0.0" -> "test.com/B@v1.2.3"

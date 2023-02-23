@@ -43,5 +43,4 @@ go mod graph | modgv | dot -Tps2 -o graph.ps
 ps2pdf graph.ps graph.pdf
 ```
 
-![View generated PDF](./graph.pdf)
 

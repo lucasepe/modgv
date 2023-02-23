@@ -2,7 +2,7 @@
 // Original Modgraphviz resides in the experimental repository.
 // https://github.com/golang/exp/tree/master/cmd/modgraphviz
 
-package modgv
+package render
 
 import (
 	"bytes"
@@ -10,14 +10,15 @@ import (
 	"io"
 	"strings"
 
-	"github.com/lucasepe/modgv/text"
+	"github.com/lucasepe/modgv/internal/graph"
+	"github.com/lucasepe/modgv/internal/text"
 )
 
 // Render translates “go mod graph” output taken from
 // the 'in' reader into Graphviz's DOT language, writing
 // to the 'out' writer.
 func Render(in io.Reader, out io.Writer) error {
-	graph, err := convert(in)
+	graph, err := graph.Convert(in)
 	if err != nil {
 		return err
 	}
@@ -30,12 +31,12 @@ func Render(in io.Reader, out io.Writer) error {
 	fmt.Fprintf(out, "\tnodesep=\"0.8\";\n")
 	fmt.Fprintf(out, "\tnode [shape=plaintext style=\"filled,rounded\" penwidth=2 fontsize=12 fontname=\"monospace\"];\n")
 
-	fmt.Fprintf(out, "\t%q [shape=underline style=\"\" fontsize=14 label=<<b>%s</b>>];\n", graph.root, graph.root)
+	fmt.Fprintf(out, "\t%q [shape=underline style=\"\" fontsize=14 label=<<b>%s</b>>];\n", graph.Root, graph.Root)
 
-	for _, n := range graph.mvsPicked {
+	for _, n := range graph.MvsPicked {
 		fmt.Fprintf(out, "\t%q [fillcolor=\"#0c5525\" label=<%s>];\n", n, textToHTML(n, "#fafafa"))
 	}
-	for _, n := range graph.mvsUnpicked {
+	for _, n := range graph.MvsUnpicked {
 		fmt.Fprintf(out, "\t%q [fillcolor=\"#a3a3a3\" label=<%s>];\n", n, textToHTML(n, "#0e0e0e"))
 	}
 	out.Write(edgesAsDOT(graph))
@@ -46,11 +47,11 @@ func Render(in io.Reader, out io.Writer) error {
 }
 
 // edgesAsDOT returns the edges in DOT notation.
-func edgesAsDOT(gr *graph) []byte {
+func edgesAsDOT(gr *graph.Graph) []byte {
 	var buf bytes.Buffer
-	for _, e := range gr.edges {
-		fmt.Fprintf(&buf, "\t%q -> %q", e.from, e.to)
-		if _, ok := text.Find(gr.mvsUnpicked, e.to); ok {
+	for _, e := range gr.Edges {
+		fmt.Fprintf(&buf, "\t%q -> %q", e.From, e.To)
+		if _, ok := text.Find(gr.MvsUnpicked, e.To); ok {
 			fmt.Fprintf(&buf, "[style=dashed]")
 		}
 		fmt.Fprintf(&buf, ";\n")

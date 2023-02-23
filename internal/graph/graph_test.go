@@ -1,4 +1,4 @@
-package modgv
+package graph
 
 import (
 	"bytes"
@@ -70,16 +70,16 @@ func TestMVSPicking(t *testing.T) {
 				fmt.Fprintf(&buf, "A %s\n", node)
 			}
 
-			g, err := convert(&buf)
+			g, err := Convert(&buf)
 			if err != nil {
 				t.Fatal(err)
 			}
 
-			if !reflect.DeepEqual(g.mvsPicked, tc.wantPicked) {
-				t.Fatalf("picked: got %v, want %v", g.mvsPicked, tc.wantPicked)
+			if !reflect.DeepEqual(g.MvsPicked, tc.wantPicked) {
+				t.Fatalf("picked: got %v, want %v", g.MvsPicked, tc.wantPicked)
 			}
-			if !reflect.DeepEqual(g.mvsUnpicked, tc.wantUnpicked) {
-				t.Fatalf("unpicked: got %v, want %v", g.mvsUnpicked, tc.wantUnpicked)
+			if !reflect.DeepEqual(g.MvsUnpicked, tc.wantUnpicked) {
+				t.Fatalf("unpicked: got %v, want %v", g.MvsUnpicked, tc.wantUnpicked)
 			}
 		})
 	}

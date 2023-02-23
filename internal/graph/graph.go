@@ -2,7 +2,7 @@
 // Original Modgraphviz resides in the experimental repository.
 // https://github.com/golang/exp/tree/master/cmd/modgraphviz
 
-package modgv
+package graph
 
 import (
 	"bufio"
@@ -14,19 +14,19 @@ import (
 	"golang.org/x/mod/semver"
 )
 
-type edge struct{ from, to string }
-type graph struct {
-	root        string
-	edges       []edge
-	mvsPicked   []string
-	mvsUnpicked []string
+type Edge struct{ From, To string }
+type Graph struct {
+	Root        string
+	Edges       []Edge
+	MvsPicked   []string
+	MvsUnpicked []string
 }
 
 // convert reads “go mod graph” output from r and returns a graph, recording
 // MVS picked and unpicked nodes along the way.
-func convert(r io.Reader) (*graph, error) {
+func Convert(r io.Reader) (*Graph, error) {
 	scanner := bufio.NewScanner(r)
-	var g graph
+	var g Graph
 	seen := map[string]bool{}
 	mvsPicked := map[string]string{} // module name -> module version
 
@@ -43,7 +43,7 @@ func convert(r io.Reader) (*graph, error) {
 
 		from := parts[0]
 		to := parts[1]
-		g.edges = append(g.edges, edge{from: from, to: to})
+		g.Edges = append(g.Edges, Edge{From: from, To: to})
 
 		for _, node := range []string{from, to} {
 			if _, ok := seen[node]; ok {
@@ -57,7 +57,7 @@ func convert(r io.Reader) (*graph, error) {
 				m, v = node[:i], node[i+1:]
 			} else {
 				// Root node doesn't have a version.
-				g.root = node
+				g.Root = node
 				continue
 			}
 
@@ -65,12 +65,12 @@ func convert(r io.Reader) (*graph, error) {
 				if semver.Compare(maxV, v) < 0 {
 					// This version is higher - replace it and consign the old
 					// max to the unpicked list.
-					g.mvsUnpicked = append(g.mvsUnpicked, m+"@"+maxV)
+					g.MvsUnpicked = append(g.MvsUnpicked, m+"@"+maxV)
 					mvsPicked[m] = v
 				} else {
 					// Other version is higher - stick this version in the
 					// unpicked list.
-					g.mvsUnpicked = append(g.mvsUnpicked, node)
+					g.MvsUnpicked = append(g.MvsUnpicked, node)
 				}
 			} else {
 				mvsPicked[m] = v
@@ -82,11 +82,11 @@ func convert(r io.Reader) (*graph, error) {
 	}
 
 	for m, v := range mvsPicked {
-		g.mvsPicked = append(g.mvsPicked, m+"@"+v)
+		g.MvsPicked = append(g.MvsPicked, m+"@"+v)
 	}
 
 	// Make this function deterministic.
-	sort.Strings(g.mvsPicked)
+	sort.Strings(g.MvsPicked)
 
 	return &g, nil
 }
