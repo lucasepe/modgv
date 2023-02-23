@@ -21,7 +21,9 @@ For each module:
 ## Installation
 
 ```bash
-go install github.com/lucasepe/modgv/modgv@latest
+git clone https://github.com/lucasepe/modgv.git
+cd modgv
+go install
 ```
 
 Here 👉 https://graphviz.gitlab.io/download/ how to install [GraphViz](https://graphviz.gitlab.io/download/) for your OS.
